@@ -2,6 +2,26 @@
 
 A reusable macOS 15.6+ Swift 6 package for browser sign-in, read-only Spotify playback monitoring, and monotonic position estimation. It contains no SwiftUI views or lyrics dependency. Users approve access in Spotify's browser page; they do not create developer apps, copy keys, or enter a Client Secret.
 
+## Installation
+
+Add `https://github.com/jvcleave/SpotifyKit.git` in Xcode's Package Dependencies,
+or declare it in your package manifest:
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/jvcleave/SpotifyKit.git", exact: "0.1.0"),
+]
+```
+
+Add `.product(name: "SpotifyKit", package: "SpotifyKit")` to your target's
+dependencies, then `import SpotifyKit`.
+
+[SpotifyHelperApp](https://github.com/jvcleave/SpotifyHelperApp) demonstrates
+this package and consumes it as a submodule at `Packages/SpotifyKit`.
+The package preserves the history of that directory, extracted at
+SpotifyHelperApp revision `b391611512ae1b75a56b6ded59d4011d640b0a29`. Version
+`0.1.0` preserves its source, tests, and manifest without API changes.
+
 ## Configure the application once
 
 The developer registers a Spotify app and supplies its public Client ID to `SpotifyConfiguration`. Bundle that ID in your application configuration; do not bundle a Client Secret. SpotifyKit uses [Authorization Code with PKCE](https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow).
@@ -134,7 +154,7 @@ The demo suspends monitoring on inactivity/sleep and keeps an explicit manual st
 Package tests simulate browser redirects against a real local loopback listener, with fake Spotify HTTP responses and in-memory token storage. They never launch a browser, contact Spotify, or access the real Keychain.
 
 ```sh
-swift test --package-path Packages/SpotifyKit
+swift test --scratch-path "$HOME/Library/Developer/Xcode/DerivedData/SpotifyKit"
 ```
 
 ## Spotify account access
